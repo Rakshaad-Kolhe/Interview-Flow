@@ -1,0 +1,12 @@
+# Requirement Traceability Matrix
+
+| Requirement | Implementation | Files | Verification |
+|-------------|----------------|-------|--------------|
+| **Git workflow** | Created `feat/advanced-js-file-upload` branch, committed atomic changes, updated `.gitignore` for `.env` and `uploads/`. Documented the process. | `docs/GIT_WORKFLOW.md`, `backend/.gitignore` | Inspected Git tree and branch checkout. |
+| **Environment variables** | Created `env.ts` to strictly validate process.env on startup. Removed hardcoded fallbacks from Auth/AI services. Created `.env.example` templates. | `backend/src/config/env.ts`, `backend/src/middleware/auth.ts`, `backend/src/services/ai.ts`, `.env.example` | Validated app startup crashes safely if vars are missing. |
+| **Event loop** | Added `/api/diagnostics/event-loop` simulating synchronous code, Microtasks (Promise), and Macrotasks (setTimeout) to show execution priority. | `backend/src/utils/eventLoopDemo.ts`, `backend/src/controllers/diagnostics.ts` | Manual verification via API response. |
+| **Promises vs callbacks** | Created `auditLogger.ts` containing both `logEventCallback` (traditional Node callback) and `logEventPromise` (modern fs.promises). | `backend/src/utils/auditLogger.ts` | Manual code review. |
+| **async/await** | Added `/api/diagnostics/async-await` simulating DB queries running sequentially (await A; await B) vs in parallel (Promise.all) to demonstrate time differences. | `backend/src/utils/asyncAwaitDemo.ts`, `backend/src/controllers/diagnostics.ts` | Manual verification via API response. |
+| **Closures** | Created `createRequestLogger` factory middleware that encapsulates a private `requestCount` variable inside a closure. | `backend/src/middleware/requestLogger.ts`, `backend/src/server.ts` | Manual code review and applied globally to API routes. |
+| **Hoisting** | Added `/api/diagnostics/hoisting` demonstrating `var` initialization rules, `let/const` Temporal Dead Zone, and full function hoisting. | `backend/src/utils/hoistingDemo.ts`, `backend/src/controllers/diagnostics.ts` | Manual verification via API response. |
+| **File uploads** | Integrated `multer` to handle `multipart/form-data`. Enforced 5MB size limit, PDF/PNG MIME types, and UUID filenames to prevent path traversal. Created `ResumeUpload` React client component. | `backend/src/controllers/upload.ts`, `backend/src/server.ts`, `frontend/components/ui/ResumeUpload.tsx`, `frontend/app/dashboard/page.tsx` | Unit tests in `upload.test.ts`. |
